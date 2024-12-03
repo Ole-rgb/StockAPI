@@ -1,9 +1,10 @@
-from pydantic import BaseModel, Field
+# from pydantic import BaseModel, Field
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
-from datetime import date
-from api.stock.StockManager import StockManager
-from fastapi.middleware.cors import CORSMiddleware
+
+# from datetime import date
+# from api.stock.StockManager import StockManager
+# from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
 
 """
@@ -41,7 +42,7 @@ Example Usage:
 """
 
 app = FastAPI()
-
+"""
 # Add CORS middleware to allow cross-origin requests
 app.add_middleware(
     CORSMiddleware,
@@ -51,17 +52,20 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["*"],
 )
+"""
 
 # ASGI-Adapter für Serverless-Umgebungen
 handler = Mangum(app)
 
-stock_manager = StockManager()
+# stock_manager = StockManager()
 
 
+"""
 class StockRequest(BaseModel):
     ticker: str = Field(..., description="The stock ticker symbol, e.g., AAPL")
     start_date: date = Field(..., description="Start date in YYYY-MM-DD format")
     end_date: date = Field(..., description="End date in YYYY-MM-DD format")
+"""
 
 
 @app.get("/")
@@ -69,6 +73,7 @@ async def read_root():
     return {"message": "Welcome to the Stock API"}
 
 
+"""
 @app.get("/stocks/")
 async def get_all_stocks():
     try:
@@ -131,3 +136,4 @@ async def remove_stock(ticker: str):
     return JSONResponse(
         content={"message": "Stock deleted", "ticker": ticker}, status_code=200
     )
+"""
