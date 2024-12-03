@@ -101,7 +101,7 @@ celerybeat.pid
 
 # Environments
 .env
-stock_env/
+stock_venv/
 
 # Spyder project settings
 .spyderproject
