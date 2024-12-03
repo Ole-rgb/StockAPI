@@ -52,6 +52,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ASGI-Adapter für Serverless-Umgebungen
+handler = Mangum(app)
 
 stock_manager = StockManager()
 
@@ -129,7 +131,3 @@ async def remove_stock(ticker: str):
     return JSONResponse(
         content={"message": "Stock deleted", "ticker": ticker}, status_code=200
     )
-
-
-# ASGI-Adapter für Serverless-Umgebungen
-handler = Mangum(app)
