@@ -3,6 +3,40 @@ from fastapi import FastAPI, HTTPException
 from datetime import date
 from stock.StockManager import StockManager
 
+"""
+Stock API
+
+This API allows users to manage stock data, including retrieving, updating, adding, and deleting stock information.
+
+Endpoints:
+- GET /: Welcome message for the Stock API.
+- GET /stocks/{ticker}: Retrieve stock information for a given ticker symbol.
+- PUT /stocks/{ticker}: Update stock information for a given ticker symbol.
+- POST /stocks/: Add a new stock with specified ticker symbol and date range.
+- DELETE /stocks/{ticker}: Remove stock information for a given ticker symbol.
+
+Example Usage:
+- To add a new stock:
+    POST /stocks/
+    {
+        "ticker": "AAPL",
+        "start_date": "2022-01-01",
+        "end_date": "2022-12-31"
+    }
+
+- To get all stock tickers:
+    GET /stocks/
+    
+- To get stock information:
+    GET /stocks/AAPL
+
+- To update stock information:
+    PUT /stocks/AAPL
+
+- To delete stock information:
+    DELETE /stocks/AAPL
+"""
+
 app = FastAPI()
 stock_manager = StockManager()
 
@@ -18,6 +52,15 @@ def read_root():
     return {"message": "Welcome to the Stock API"}
 
 
+@app.get("/stocks/")
+def get_all_stocks():
+    try:
+        tickers = stock_manager.get_all_tickers()
+    except ValueError as e:
+        return HTTPException(status_code=400, detail=str(e))
+    return {"tickers": tickers}
+
+
 @app.get("/stocks/{ticker}")
 def get_stock(ticker: str):
     try:
@@ -29,7 +72,6 @@ def get_stock(ticker: str):
 
 @app.put("/stocks/{ticker}")
 def update_stock(ticker: str):
-    # Implementation will follow later
     try:
         stock_json = stock_manager.update_stock(ticker)
     except ValueError as e:
@@ -57,37 +99,12 @@ def remove_stock(ticker: str):
     return {"message": "Stock deleted", "ticker": ticker}
 
 
-'''
-@app.get("/stocks/{stock_name}")
-# Example request: /stocks/AAPL?start_date=2023-01-01&end_date=2023-01-31
-def get_stock_by_time(stock_name: str, start_date: str, end_date: str):
-    """
-    Endpoint to retrieve stock data for a given stock name within a specified time range.
-
-    Args:
-        stock_name (str): The name of the stock to retrieve data for.
-        start_date (str): The start date of the time range in 'YYYY-MM-DD' format.
-        end_date (str): The end date of the time range in 'YYYY-MM-DD' format.
-
-    Returns:
-        dict: A dictionary containing the stock name, start date, end date, and the stock data within the specified time range.
-        If the stock data doesn't exist for the given time range, returns a dictionary with an error message.
-
-    Raises:
-        ValueError: If the stock data doesn't exist for the given time range.
-    """
+"""
+@app.get("/stocks/{ticker}/timeframe")
+def get_stock_timeframe(ticker: str, days: int):
     try:
-        stock_data = stock_manager.get_stock_by_time(stock_name, start_date, end_date)
-        if stock_data:
-            return {
-                "stock_name": stock_name,
-                "start_date": start_date,
-                "end_date": end_date,
-                "data": stock_data,
-            }
-    except ValueError:
-        return {
-            "stock_name": stock_name,
-            "data": "Stock data doesn't exist for the given time range",
-        }
-'''
+        stock_json = stock_manager.get_stock_timeframe(ticker, days)
+    except ValueError as e:
+        return HTTPException(status_code=404, detail=str(e))
+    return stock_json
+"""

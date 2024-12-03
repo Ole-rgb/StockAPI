@@ -9,6 +9,14 @@ class StockManager:
     def __init__(self):
         self.stocks = {}
 
+    def get_all_tickers(self):
+        """
+        Get all the stock tickers.
+        Returns:
+            A list of stock tickers.
+        """
+        return list(self.stocks.keys())
+
     def get_stock_json(self, ticker):
         """
         Get a stock from the manager.
