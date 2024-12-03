@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 from datetime import date
-from stock.StockManager import StockManager
+from api.stock.StockManager import StockManager
 from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
 

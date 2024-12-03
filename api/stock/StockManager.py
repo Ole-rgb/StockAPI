@@ -1,4 +1,4 @@
-from stock.Stock import Stock
+from api.stock.Stock import Stock
 
 
 class StockManager:
