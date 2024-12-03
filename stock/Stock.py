@@ -54,6 +54,7 @@ class Stock:
             self.__set_end_date(file_dates[1])
 
     def __del__(self):
+        # TODO think about deleting the stock csv to save space
         print(f"Deleting stock")
 
     def update(self):
