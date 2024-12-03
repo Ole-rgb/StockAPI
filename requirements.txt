@@ -1,6 +1,3 @@
-# yfinance # for fetching stock data
-# pandas # for data manipulation
-# pydantic # for data validation
 fastapi # for building APIs
 uvicorn # for running the API
 mangum # for AWS Lambda

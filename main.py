@@ -54,8 +54,6 @@ app.add_middleware(
 )
 """
 
-# ASGI-Adapter für Serverless-Umgebungen
-handler = Mangum(app)
 
 # stock_manager = StockManager()
 
@@ -73,6 +71,8 @@ async def read_root():
     return {"message": "Welcome to the Stock API"}
 
 
+# ASGI-Adapter für Serverless-Umgebungen
+handler = Mangum(app)
 """
 @app.get("/stocks/")
 async def get_all_stocks():
