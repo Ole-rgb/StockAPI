@@ -1,3 +1,4 @@
-fastapi # for building APIs
-uvicorn # for running the API
-mangum # for AWS Lambda
+fastapi
+yfinance
+pydantic
+pandas

@@ -1,48 +1,12 @@
-# from pydantic import BaseModel, Field
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import JSONResponse
-
-# from datetime import date
-# from api.stock.StockManager import StockManager
-# from fastapi.middleware.cors import CORSMiddleware
-from mangum import Mangum
-
-"""
-Stock API
-
-This API allows users to manage stock data, including retrieving, updating, adding, and deleting stock information.
-
-Endpoints:
-- GET /: Welcome message for the Stock API.
-- GET /stocks/{ticker}: Retrieve stock information for a given ticker symbol.
-- PUT /stocks/{ticker}: Update stock information for a given ticker symbol.
-- POST /stocks/: Add a new stock with specified ticker symbol and date range.
-- DELETE /stocks/{ticker}: Remove stock information for a given ticker symbol.
-
-Example Usage:
-- To add a new stock:
-    POST /stocks/
-    {
-        "ticker": "AAPL",
-        "start_date": "2022-01-01",
-        "end_date": "2022-12-31"
-    }
-
-- To get all stock tickers:
-    GET /stocks/
-    
-- To get stock information:
-    GET /stocks/AAPL
-
-- To update stock information:
-    PUT /stocks/AAPL
-
-- To delete stock information:
-    DELETE /stocks/AAPL
-"""
+from fastapi import FastAPI, __version__, HTTPException
+from fastapi.responses import JSONResponse, HTMLResponse
+from stock.StockManager import StockManager
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field
+from datetime import date
 
 app = FastAPI()
-"""
+
 # Add CORS middleware to allow cross-origin requests
 app.add_middleware(
     CORSMiddleware,
@@ -52,28 +16,39 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["*"],
 )
-"""
 
 
-# stock_manager = StockManager()
+stock_manager = StockManager()
 
 
-"""
 class StockRequest(BaseModel):
     ticker: str = Field(..., description="The stock ticker symbol, e.g., AAPL")
     start_date: date = Field(..., description="Start date in YYYY-MM-DD format")
     end_date: date = Field(..., description="End date in YYYY-MM-DD format")
-"""
 
 
 @app.get("/")
-async def read_root():
-    return {"message": "Welcome to the Stock API"}
+async def root():
+    html = f"""
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <title>FastAPI on Vercel</title>
+            </head>
+            <body>
+                <div class="bg-gray-200 p-4 rounded-lg shadow-lg">
+                    <h1>Hello from FastAPI@{__version__}</h1>
+                    <ul>
+                        <li><a href="/docs">/docs</a></li>
+                    </ul>
+                    <p>Powered by <a href="https://vercel.com" target="_blank">Vercel</a></p>
+                </div>
+            </body>
+        </html>
+        """
+    return HTMLResponse(html)
 
 
-# ASGI-Adapter für Serverless-Umgebungen
-handler = Mangum(app)
-"""
 @app.get("/stocks/")
 async def get_all_stocks():
     try:
@@ -136,4 +111,3 @@ async def remove_stock(ticker: str):
     return JSONResponse(
         content={"message": "Stock deleted", "ticker": ticker}, status_code=200
     )
-"""
