@@ -133,15 +133,3 @@ async def remove_stock(ticker: str):
 
 # ASGI-Adapter für Serverless-Umgebungen
 handler = Mangum(app)
-
-"""
-@app.get("/stocks/{ticker}/timeframe")
-async def get_stock_timeframe(ticker: str, days: int):
-    try:
-        stock_json = stock_manager.get_stock_timeframe(ticker, days)
-    except ValueError as e:
-        raise HTTPException(status_code=404, detail=str(e))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail="Internal server error")
-    return JSONResponse(content=stock_json, status_code=200)
-"""
